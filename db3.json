@@ -1,0 +1,8 @@
+{
+  "_default": {
+    "1": { "item": "cup", "quantity": 2 },
+    "2": { "item": "cup", "quantity": 2 },
+    "3": { "item": "chocoloate", "quantity": 2 },
+    "4": { "item": "towel", "quantity": 2 }
+  }
+}
