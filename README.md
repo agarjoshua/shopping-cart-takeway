@@ -21,7 +21,7 @@ The project is structured as folows;<br  />
 
 &nbsp;&nbsp;&nbsp;&nbsp;-db.json - This is a json database of the full list catalogue of the cart application<br  />
 
-&nbsp;&nbsp;&nbsp;&nbsp;-db2.json - This is json database of the cart as it stands before being confirmed as an order &nbsp;&nbsp;&nbsp;&nbsp; (It is truncted  after every order confirmation)<br  />
+&nbsp;&nbsp;&nbsp;&nbsp;-db2.json - This is json database of the cart as it stands before being confirmed as an order (It is truncted  after every order confirmation)<br  />
 
 &nbsp;&nbsp;&nbsp;&nbsp;-db3.json - This is json database of all the confirmed orders made on the application<br  />
 
