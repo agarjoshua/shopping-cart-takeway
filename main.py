@@ -230,6 +230,7 @@ def view_order():
     else:
         print("There are no recent orders")
 
+entrypoint()
 
 choice = ""
 if choice != "q":
