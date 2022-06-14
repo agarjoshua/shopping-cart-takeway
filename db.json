@@ -1,16 +1,16 @@
 {
   "_default": {
     "1": { "item": "rice", "quantity": 10 },
-    "2": { "item": "oil", "quantity": 2 },
-    "3": { "item": "Cup", "quantity": 1 },
-    "4": { "item": "Grenadillo", "quantity": 2 },
-    "5": { "item": "Fish", "quantity": 3 },
-    "6": { "item": "Turkey", "quantity": 4 },
-    "7": { "item": "Bread", "quantity": 5 },
-    "8": { "item": "Chocolate", "quantity": 6 },
-    "9": { "item": "Water", "quantity": 7 },
-    "10": { "item": "Towel", "quantity": 8 },
-    "11": { "item": "Lemonade", "quantity": 9 },
-    "12": { "item": "Peanut", "quantity": 10 }
+    "2": { "item": "oil", "quantity": 0 },
+    "3": { "item": "cup", "quantity": 1 },
+    "4": { "item": "grenadillo", "quantity": 2 },
+    "5": { "item": "fish", "quantity": 3 },
+    "6": { "item": "turkey", "quantity": 4 },
+    "7": { "item": "bread", "quantity": 5 },
+    "8": { "item": "chocolate", "quantity": 6 },
+    "9": { "item": "water", "quantity": 7 },
+    "10": { "item": "towel", "quantity": 8 },
+    "11": { "item": "lemonade", "quantity": 9 },
+    "12": { "item": "peanut", "quantity": 10 }
   }
 }

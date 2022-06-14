@@ -1,5 +1,6 @@
 import os
 from pprint import pprint
+import re
 from tinydb import TinyDB, Query
 from pprint import pprint
 
@@ -47,7 +48,7 @@ def order():
     req = input(
         """,
     Hi:
-        hello, would you like to order?
+        would you like to order an item?
     """
     )
 
@@ -63,54 +64,65 @@ def order():
         )
         item = item.lower()
         It = Query()
-        if db.search(It.item.exists()):
-            pprint(f"The item {item} does exist")
+        query_item = db.search(It.item.matches(item, flags=re.IGNORECASE))
+        if query_item:
+            pprint(f"The item {item} catalogue is as {query_item}")
+
+            check = db.get(It.item == item)
+            oldquantity = (check["quantity"])
+            
+            if oldquantity == 0:
+                print("Theres no item of that product currently available")
+                order()
+
             newquantity = input(
-                """,
+                """
             **:
                 Kindly indicate the quantity you want to buy?
+            **
             """
             )
-            oldquantity = db.get(It.item == "oil")
-            uid = oldquantity.doc_id
-            oldquantity = int(oldquantity["quantity"])
-
+            
+            # uid = oldquantity.doc_id
+            # oldquantity = int(oldquantity["quantity"])
             newquantity = int(newquantity)
-            if oldquantity == 0:
+            
+            if newquantity == 0:
                 print("Kindly enter a number greater than 0")
+                order()
             elif oldquantity >= newquantity:
                 balance = oldquantity - newquantity
                 db.update({"quantity": balance}, It.item == item)
                 db2.insert({"item": item, "quantity": newquantity})
             else:
-                "The quantity youve entered in not available"
-            
+                print("The quantity you've entered in not available,kindly input a lower quantity")
+                order()
+
+            print("[1] Yes.")
+            print("[2] No.")
+
             res = input(
                 """,
             Hi:
                 hello, would you like to view cart?
             """
             )
-
-            print("[1] Yes.")
-            print("[2] No.")
-
+            
             if res == "1":
-                view_cart() 
+                view_cart()
             elif res == "2":
                 main_menu()
             else:
                 print("\nInvaid choice.\n")
 
         else:
-            return ("The item does not exist")
+            print("The item does not exist,kindly input an item that exists") 
+            order()
 
     elif req == "2":
         main_menu()
     else:
         print("\nI didn't understand that choice.\n")
-
-    
 
 
 def view_cart():
@@ -135,7 +147,7 @@ def view_cart():
             db3.insert(new_dict)
             db2.truncate()
             print("\n Your order is ready, you will be paid on delivery")
-        elif choice == "2":
+        elif confirm == "2":
             main_menu()
         else:
             print("\nI didn't understand that choice.\n")
@@ -187,7 +199,8 @@ def view_order():
             print("\nI didn't understand that choice.\n")
 
     else:
-        print('Cart is empty')
+        print("Cart is empty")
+
 
 entrypoint()
 
