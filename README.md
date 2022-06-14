@@ -35,7 +35,7 @@ The project is structured as folows;<br  />
 
 <ins>**Unit Tests:**</ins><br  />
 
-Since Ive configured my application to have functions that dont take any arguments, I have used the **patch** method to to add mock data to my function testing.<br  />
+Since I've configured my application to have functions that dont take any arguments, I have used the **patch** method to to add mock data to my function testing.<br  />
 
 &nbsp;&nbsp;&nbsp;&nbsp;-To run the tests:<br  />
 

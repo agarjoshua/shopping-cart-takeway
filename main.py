@@ -4,14 +4,14 @@ import re
 from tinydb import TinyDB, Query
 from pprint import pprint
 
-# catalogue
+# catalogue data table
 db = TinyDB("db.json")
-# cart
+# cart data table
 db2 = TinyDB("db2.json")
-# orders
+# orders data table
 db3 = TinyDB("db3.json")
 
-
+# The application entry point 
 def entrypoint():
     os.system("clear")
     print("\t**********************************************")
@@ -26,7 +26,7 @@ def entrypoint():
     )
     print("\t**********************************************")
 
-
+#The applications main menu
 def main_menu():
     print("\n[1] Place‌‌ an ‌‌Order, or add to your cart.")
     print("[2] Cancel  ‌the‌‌ Order‌.")
@@ -54,7 +54,7 @@ def main_menu():
     else:
         print("\nI didn't understand that choice.\n")
 
-
+#The order function
 def order():
     print("[1] Yes.")
     print("[2] No.")
@@ -141,7 +141,7 @@ def order():
     else:
         print("\nI didn't understand that choice.\n")
 
-
+#The view cart function 
 def view_cart():
     cart = db2.all()
     pprint(cart)
@@ -172,7 +172,7 @@ def view_cart():
         print("your cart is empty")
         main_menu()
 
-
+#the cancel order function
 def cancel_order():
 
     print("\n[1] Yes.")
@@ -186,27 +186,23 @@ def cancel_order():
     )
 
     if confirm == "1":
+        # delete the items in the cart and add the back to the original catalogue
         for i in db2:
             cart_quantity = i["quantity"]
             item = i["item"]
-            print(i)
-            print(cart_quantity,item)
-
-            It = Query
+            It = Query()
             check = db.get(It.item == item)
             oldquantity = (check["quantity"])
-            balance = oldquantity - newquantity
+            balance = oldquantity + cart_quantity
             db.update({"quantity": balance}, It.item == item)
-
-         
-        # db2.truncate()
+        db2.truncate()
         print("\nOrders have been cancelled.")
     elif choice == "2":
         main_menu()
     else:
         print("\nI didn't understand that choice.\n")
 
-
+#The view order fnction
 def view_order():
     cart = db3.all()
     print(f"""Hi, here is your are your previous orders,
@@ -233,9 +229,6 @@ def view_order():
 
     else:
         print("There are no recent orders")
-
-
-entrypoint()
 
 
 choice = ""
