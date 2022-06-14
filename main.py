@@ -24,6 +24,7 @@ def entrypoint():
             A simple Cart made using python and databse set up with tinyDB
         """
     )
+    print("\t**********************************************")
 
 
 def main_menu():
@@ -33,12 +34,25 @@ def main_menu():
     print("[4] View Orders.")
     print("[q] Quit.")
 
-    return input(
+    choice = input(
         """Hi again,
     Usage:
         hello, what would you like to do?
     """
     )
+
+    if choice == "1":
+        order()
+    elif choice == "2":
+        cancel_order()
+    elif choice == "3":
+        view_cart()
+    elif choice == "4":
+        view_order()
+    elif choice == "q":
+        print("\nThanks for using us. Bye.")
+    else:
+        print("\nI didn't understand that choice.\n")
 
 
 def order():
@@ -64,59 +78,62 @@ def order():
         )
         item = item.lower()
         It = Query()
-        query_item = db.search(It.item.matches(item, flags=re.IGNORECASE))
-        if query_item:
-            pprint(f"The item {item} catalogue is as {query_item}")
+        try:
+            if query_item := db.search(It.item.matches(item, flags=re.IGNORECASE)):
+                
+                # pprint(f"The item {item} catalogue is as {query_item}")
 
-            check = db.get(It.item == item)
-            oldquantity = (check["quantity"])
-            
-            if oldquantity == 0:
-                print("Theres no item of that product currently available")
-                order()
+                check = db.get(It.item == item)
+                oldquantity = (check["quantity"])
 
-            newquantity = input(
+                if oldquantity == 0:
+                    print("Theres no item of that product currently available")
+                    order()
+
+                newquantity = input(
+                    """
+                **:
+                    Kindly indicate the quantity you want to buy?
+                **
                 """
-            **:
-                Kindly indicate the quantity you want to buy?
-            **
-            """
-            )
-            
-            # uid = oldquantity.doc_id
-            # oldquantity = int(oldquantity["quantity"])
-            newquantity = int(newquantity)
-            
-            if newquantity == 0:
-                print("Kindly enter a number greater than 0")
-                order()
-            elif oldquantity >= newquantity:
-                balance = oldquantity - newquantity
-                db.update({"quantity": balance}, It.item == item)
-                db2.insert({"item": item, "quantity": newquantity})
+                )
+
+                newquantity = int(newquantity)
+
+                if newquantity == 0:
+                    print("Kindly enter a number greater than 0")
+                    order()
+                elif oldquantity >= newquantity:
+                    balance = oldquantity - newquantity
+                    db.update({"quantity": balance}, It.item == item)
+                    db2.insert({"item": item, "quantity": newquantity})
+                else:
+                    print(f"The quantity you've entered in not in stock, the current available stock is {oldquantity}, kindly input a lower quantity")
+                    order()
+
+                print("[1] Yes.")
+                print("[2] No.")
+
+                res = input(
+                    """,
+                Hi:
+                    hello, would you like to view cart?
+                """
+                )
+
+                if res == "1":
+                    view_cart()
+                elif res == "2":
+                    main_menu()
+                else:
+                    print("\nInvaid choice.\n")
+
             else:
-                print("The quantity you've entered in not available,kindly input a lower quantity")
+                print("The item does not exist,kindly input an item that exists")
                 order()
 
-            print("[1] Yes.")
-            print("[2] No.")
-
-            res = input(
-                """,
-            Hi:
-                hello, would you like to view cart?
-            """
-            )
-            
-            if res == "1":
-                view_cart()
-            elif res == "2":
-                main_menu()
-            else:
-                print("\nInvaid choice.\n")
-
-        else:
-            print("The item does not exist,kindly input an item that exists") 
+        except TypeError:
+            print('Item does not exist')
             order()
 
     elif req == "2":
@@ -153,6 +170,7 @@ def view_cart():
             print("\nI didn't understand that choice.\n")
     else:
         print("your cart is empty")
+        main_menu()
 
 
 def cancel_order():
@@ -168,7 +186,20 @@ def cancel_order():
     )
 
     if confirm == "1":
-        db2.truncate()
+        for i in db2:
+            cart_quantity = i["quantity"]
+            item = i["item"]
+            print(i)
+            print(cart_quantity,item)
+
+            It = Query
+            check = db.get(It.item == item)
+            oldquantity = (check["quantity"])
+            balance = oldquantity - newquantity
+            db.update({"quantity": balance}, It.item == item)
+
+         
+        # db2.truncate()
         print("\nOrders have been cancelled.")
     elif choice == "2":
         main_menu()
@@ -177,29 +208,31 @@ def cancel_order():
 
 
 def view_order():
-    cart = db2.all()
+    cart = db3.all()
+    print(f"""Hi, here is your are your previous orders,
+        Your Orders:
+        """)
     pprint(cart)
     if cart:
 
-        print("\n[1] Yes.")
-        print("[2] No‌.")
-
+        print("\n[1] Exit.")
+        print("[2]  Main menu‌.")
         confirm = input(
-            """Hi here is your cart,
+            """Hi here is your are your previous orders,
         Message:
-            Do you want to confirm order?
+            Do you want to exit?
         """
         )
 
         if confirm == "1":
             print("\nThanks for using us. Bye.")
-        elif choice == "2":
+        elif confirm == "2":
             main_menu()
         else:
             print("\nI didn't understand that choice.\n")
 
     else:
-        print("Cart is empty")
+        print("There are no recent orders")
 
 
 entrypoint()
@@ -208,17 +241,3 @@ entrypoint()
 choice = ""
 if choice != "q":
     choice = main_menu()
-
-    # entrypoint()
-    if choice == "1":
-        order()
-    elif choice == "2":
-        cancel_order()
-    elif choice == "3":
-        view_cart()
-    elif choice == "4":
-        view_order()
-    elif choice == "q":
-        print("\nThanks for using us. Bye.")
-    else:
-        print("\nI didn't understand that choice.\n")
