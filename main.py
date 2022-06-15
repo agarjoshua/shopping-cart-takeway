@@ -28,6 +28,7 @@ def entrypoint():
 
 #The applications main menu
 def main_menu():
+    entrypoint()
     print("\n[1] Place‌‌ an ‌‌Order, or add to your cart.")
     print("[2] Cancel  ‌the‌‌ Order‌.")
     print("[3] view Cart.")
@@ -53,6 +54,9 @@ def main_menu():
         print("\nThanks for using us. Bye.")
     else:
         print("\nI didn't understand that choice.\n")
+
+    if __name__ == "__main__":
+        main_menu()
 
 #The order function
 def order():
@@ -141,6 +145,9 @@ def order():
     else:
         print("\nI didn't understand that choice.\n")
 
+    if __name__ == "__main__":
+        order()
+
 #The view cart function 
 def view_cart():
     cart = db2.all()
@@ -171,6 +178,9 @@ def view_cart():
     else:
         print("your cart is empty")
         main_menu()
+    
+    if __name__ == "__main__":
+        view_cart()
 
 #the cancel order function
 def cancel_order():
@@ -197,10 +207,13 @@ def cancel_order():
             db.update({"quantity": balance}, It.item == item)
         db2.truncate()
         print("\nOrders have been cancelled.")
-    elif choice == "2":
+    elif confirm == "2":
         main_menu()
     else:
         print("\nI didn't understand that choice.\n")
+
+    if __name__ == "__main__":
+        cancel_order()
 
 #The view order fnction
 def view_order():
@@ -230,8 +243,14 @@ def view_order():
     else:
         print("There are no recent orders")
 
-entrypoint()
+    if __name__ == "__main__":
+        view_order()
 
-choice = ""
-if choice != "q":
-    choice = main_menu()
+# entrypoint()
+
+# choice = ""
+# if choice != "q":
+#     choice = main_menu()
+
+if __name__ == "__main__":
+        main_menu()
